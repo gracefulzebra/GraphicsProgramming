@@ -34,7 +34,7 @@ void ObjectHandler::CheckCollisions()
 			//Check collisions between the objects 
 			if (collision.CheckCollisions(objects[i].modelCollider.GetPos(), objects[j].modelCollider.GetPos(), objects[i].modelCollider.GetRadius(), objects[j].modelCollider.GetRadius()))
 			{
-				audio.playSoundEffect(0); //Play collision sound effect
+				//audio.playSoundEffect(0); //Play collision sound effect
 			}
 		}
 	}
@@ -85,21 +85,40 @@ void ObjectHandler::DrawAllObjects(Viewport& _myViewPort, float& time)
 
 void ObjectHandler::DrawObject(Model& _object, Viewport& _myViewPort)
 {
-	//Bind's the model's shaders and texture then draws it.
+	//Binds the model's shader and texture then draws it.
 	_object.modelShader.BindShader();
-	_object.modelShader.UpdateLightingShader(_object.modelTransform, _myViewPort, light.GetModelPos(), lightColor);
+	
+	glm::vec3 cameraPos = _myViewPort.GetPos();
+	glm::vec3 lightPos = light.GetModelPos();
+	glm::vec3 lightColour = lightColor;
+	glm::mat4 model = _object.modelTransform.GetModel();
+	glm::mat4 mv = _myViewPort.GetViewMatrix();
+	glm::mat4 mp = _myViewPort.GetProjectionMatrix();
+
+	_object.modelShader.setVec3("cameraPos", cameraPos);
+	_object.modelShader.setVec3("lightPos", lightPos);
+	_object.modelShader.setVec3("lightColor", lightColor);
+	_object.modelShader.setMat4("model", model);
+	_object.modelShader.setMat4("view", mv);
+	_object.modelShader.setMat4("projection", mp);
+	
 	_object.modelTexture.BindTexture(0);
 	_object.modelMesh.DrawMesh();
 }
 
 void ObjectHandler::DrawLight(Model& _object, Viewport& _myViewPort)
 {
-	//Bind's the model's shaders and texture then draws it.
+	//Binds the model's shader and texture then draws it.
 	_object.modelShader.BindShader();
-	_object.modelShader.UpdateTransform(_object.modelTransform, _myViewPort);
+
+	glm::mat4 mvp = _object.modelTransform.GetMVP(_myViewPort);
+
+	_object.modelShader.setMat4("transform", mvp);
+
 	_object.modelTexture.BindTexture(0);
 	_object.modelMesh.DrawMesh();
 }
+
 
 
 

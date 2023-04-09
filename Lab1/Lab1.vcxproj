@@ -116,6 +116,9 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\res\shaders\basicgeomshader.frag" />
+    <None Include="..\res\shaders\basicgeomshader.geom" />
+    <None Include="..\res\shaders\basicgeomshader.vert" />
     <None Include="..\res\shaders\basiclighting.frag" />
     <None Include="..\res\shaders\basiclighting.vert" />
     <None Include="..\res\shaders\lightcubeshader.frag" />

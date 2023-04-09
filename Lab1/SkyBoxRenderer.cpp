@@ -187,7 +187,14 @@ void SkyBoxRenderer::PrepareVAO()
 void SkyBoxRenderer::DrawSkybox(Viewport& _mainViewport)
 {
     skyBoxShader.BindShader();
-    skyBoxShader.UpdateSkyBoxTransform(transform, _mainViewport);
+
+    glm::mat4 mv = (glm::mat3(_mainViewport.GetViewMatrix()));
+    glm::mat4 mp = _mainViewport.GetProjectionMatrix();
+    GLuint skyBox = 0;
+
+    skyBoxShader.setMat4("projection", mp);
+    skyBoxShader.setMat4("view", mv);
+    skyBoxShader.setInt("skybox", skyBox);
 
     glDepthFunc(GL_LEQUAL); //Set the depth function to draw at the maximum depth (behind the rest of the scene)
     glBindVertexArray(skyboxVAO);
@@ -206,7 +213,18 @@ void SkyBoxRenderer::DrawReflectionCube(Viewport& _mainViewport, float& time)
     transform.SetScale(glm::vec3(1.0, 1.0, 1.0));
     
     reflectionShader.BindShader();
-    reflectionShader.UpdateReflections(transform, _mainViewport);
+
+    GLuint skyBox = 0;
+    glm::vec3 cameraPos = _mainViewport.GetPos();
+    glm::mat4 model = transform.GetModel();
+    glm::mat4 mv = _mainViewport.GetViewMatrix();
+    glm::mat4 mp = _mainViewport.GetProjectionMatrix();
+
+    reflectionShader.setVec3("cameraPos", cameraPos);
+    reflectionShader.setMat4("model", model);
+    reflectionShader.setMat4("projection", mp);
+    reflectionShader.setMat4("view", mv);
+    reflectionShader.setInt("skybox", skyBox);
     
     glBindVertexArray(reflectionCubeVAO);
     glActiveTexture(GL_TEXTURE0);
@@ -223,7 +241,18 @@ void SkyBoxRenderer::DrawRefractionCube(Viewport& _mainViewport, float& time)
     transform.SetScale(glm::vec3(1.0, 1.0, 1.0));
 
     refractionShader.BindShader();
-    refractionShader.UpdateReflections(transform, _mainViewport);
+
+    GLuint skyBox = 0;
+    glm::vec3 cameraPos = _mainViewport.GetPos();
+    glm::mat4 model = transform.GetModel();
+    glm::mat4 mv = _mainViewport.GetViewMatrix();
+    glm::mat4 mp = _mainViewport.GetProjectionMatrix();
+
+    reflectionShader.setVec3("cameraPos", cameraPos);
+    reflectionShader.setMat4("model", model);
+    reflectionShader.setMat4("projection", mp);
+    reflectionShader.setMat4("view", mv);
+    reflectionShader.setInt("skybox", skyBox);
 
     glBindVertexArray(refractionCubeVAO);
     glActiveTexture(GL_TEXTURE0);

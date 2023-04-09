@@ -143,5 +143,14 @@
     <None Include="..\res\shaders\skyboxshader.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\shaders\basicgeomshader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\shaders\basicgeomshader.geom">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\shaders\basicgeomshader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
