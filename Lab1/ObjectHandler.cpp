@@ -11,6 +11,7 @@ void ObjectHandler::InitializeObjHandler(AudioHandler& _audio)
 	//Initializes an instance of all of the shaders and textures.
 	shaders[0].InitializeShader("..\\res\\shaders\\basiclighting");
 	shaders[1].InitializeShader("..\\res\\shaders\\lightcubeshader");
+	shaders[2].InitializeGeomShader("..\\res\\shaders\\basicgeomshader");
 	textures[0].InitializeTexture("..\\res\\textures\\hair.jpg");
 	textures[1].InitializeTexture("..\\res\\textures\\bricks.jpg");
 	textures[2].InitializeTexture("..\\res\\textures\\backpack.jpg");
@@ -79,11 +80,11 @@ void ObjectHandler::DrawAllObjects(Viewport& _myViewPort, float& time)
 	//Loop through all the objects and draw them
 	for (int i = 0; i < NUM_OBJECTS; i++)
 	{
-		DrawObject(objects[i], _myViewPort);
+		DrawObject(objects[i], _myViewPort, time);
 	}
 }
 
-void ObjectHandler::DrawObject(Model& _object, Viewport& _myViewPort)
+void ObjectHandler::DrawObject(Model& _object, Viewport& _myViewPort, float& time)
 {
 	//Binds the model's shader and texture then draws it.
 	_object.modelShader.BindShader();
@@ -101,6 +102,7 @@ void ObjectHandler::DrawObject(Model& _object, Viewport& _myViewPort)
 	_object.modelShader.setMat4("model", model);
 	_object.modelShader.setMat4("view", mv);
 	_object.modelShader.setMat4("projection", mp);
+	_object.modelShader.setFloat("time", time / 4);
 	
 	_object.modelTexture.BindTexture(0);
 	_object.modelMesh.DrawMesh();

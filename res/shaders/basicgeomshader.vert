@@ -1,23 +1,30 @@
-//Version Number
-#version 400
+#version 440 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 texCoord;
+layout (location = 2) in vec3 aNormal;
 
-//The layout qualifers
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 2) in vec3 VertexNormal;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
-//Uniform variable
-uniform mat4 transform;
-
-//Passing out the normal and position data
-out vec3 v_norm;
-out vec4 v_pos; 
+out VS_OUT {
+    vec3 vFragPosition;
+    vec3 vNormals;
+    vec2 vTexCoord;
+} vs_out;
 
 void main()
 {
-	//Assigning the normal and position data
-	v_norm = VertexNormal;
-	v_pos = vec4(VertexPosition, 1.0);
+    //Increments the texture coordiantes
+    vs_out.vTexCoord = texCoord; 
 
-	// Sets the position of the current vertex
-	gl_Position = transform * vec4(VertexPosition, 1.0);
+    //Sets the current fragment position in reference to the model
+    vs_out.vFragPosition = vec3(model * vec4(aPos, 1.0));
+
+    //Sets the normals and transposes and inverses them to reduce warping from scaling
+    vs_out.vNormals = mat3(transpose(inverse(model))) * aNormal;  
+
+    //Sets the position to the current MVP in referece to the position of the current fragment
+    gl_Position = projection * view * vec4(vs_out.vFragPosition, 1.0);
+    
 }

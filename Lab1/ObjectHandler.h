@@ -117,6 +117,7 @@ public:
 	enum Shaders{
 		BASICLIGHTING_SHADER,
 		LIGHTCUBE_SHADER,
+		GEOM_SHADER,
 		NUM_SHADERS
 	};
 
@@ -138,7 +139,7 @@ public:
 	
 protected:
 private:
-	void DrawObject(Model& _object, Viewport& _myViewPort);
+	void DrawObject(Model& _object, Viewport& _myViewPort, float& time);
 	void DrawLight(Model& _object, Viewport& _myViewPort);
 	Model& GenerateObject();
 
