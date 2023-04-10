@@ -24,6 +24,7 @@ void SkyBoxRenderer::InitializeSkyBoxRenderer()
     skyBoxShader.InitializeShader("..\\res\\shaders\\skyboxshader");
     reflectionShader.InitializeShader("..\\res\\shaders\\reflectionshader");
     refractionShader.InitializeShader("..\\res\\shaders\\refractionshader");
+    emappingShader.InitializeShader("..\\res\\shaders\\emappingshader");
     transform.SetPos(glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
@@ -155,6 +156,16 @@ void SkyBoxRenderer::InitializeCubeMap()
 //Prepares the buffers for drawing the cubemap objects
 void SkyBoxRenderer::PrepareVAO()
 {
+    glGenVertexArrays(1, &emappingCubeVAO);
+    glGenBuffers(1, &emappingCubeVBO);
+    glBindVertexArray(emappingCubeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, emappingCubeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+
     glGenVertexArrays(1, &reflectionCubeVAO);
     glGenBuffers(1, &reflectionCubeVBO);
     glBindVertexArray(reflectionCubeVAO);
@@ -255,6 +266,29 @@ void SkyBoxRenderer::DrawRefractionCube(Viewport& _mainViewport, float& time)
     reflectionShader.setInt("skybox", skyBox);
 
     glBindVertexArray(refractionCubeVAO);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void SkyBoxRenderer::DraweMapCube(Viewport& _mainViewport, float& time) 
+{
+    transform.SetPos(glm::vec3(0, 0, -5));
+    transform.SetRot(glm::vec3(0, time * 0.2, 0));
+    transform.SetScale(glm::vec3(1.0, 1.0, 1.0));
+
+    emappingShader.BindShader();
+
+    glm::mat4 model = transform.GetModel();
+    glm::mat4 mvp = _mainViewport.GetViewProjectionMatrix() * model;
+    glm::vec3 cameraPos = _mainViewport.GetPos();
+
+    emappingShader.setMat4("model", model);
+    emappingShader.setMat4("transform", mvp);
+    emappingShader.setVec3("cameraPos", cameraPos);
+
+    glBindVertexArray(emappingCubeVAO);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
     glDrawArrays(GL_TRIANGLES, 0, 36);

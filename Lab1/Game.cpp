@@ -39,7 +39,7 @@ void Game::InitializeSystems()
 	//Initializes the ObjectHandler and creates 3 new objects for it to manage
 	_objHandler.InitializeObjHandler(_gameAudio);
 	_objHandler.CreateObject(_objHandler.textures[0], _objHandler.shaders[0], glm::vec3(5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\monkey3.obj");
-	_objHandler.CreateObject(_objHandler.textures[2], _objHandler.shaders[2], glm::vec3(-5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\backpack.obj");
+	_objHandler.CreateObject(_objHandler.textures[2], _objHandler.shaders[2], glm::vec3(-5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj");
 	_objHandler.CreateObject(_objHandler.textures[1], _objHandler.shaders[0], glm::vec3(5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj");
 }
 
@@ -139,6 +139,7 @@ void Game::DrawGame()
 	//Draw objects that use the CubeMap texture
 	_skyBox.DrawReflectionCube(_mainViewport, time);
 	_skyBox.DrawRefractionCube(_mainViewport, time);
+	_skyBox.DraweMapCube(_mainViewport, time);
 	_skyBox.DrawSkybox(_mainViewport);
 			
 	glEnableClientState(GL_COLOR_ARRAY); 

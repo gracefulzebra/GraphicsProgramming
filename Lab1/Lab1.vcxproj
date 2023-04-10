@@ -121,6 +121,8 @@
     <None Include="..\res\shaders\basicgeomshader.vert" />
     <None Include="..\res\shaders\basiclighting.frag" />
     <None Include="..\res\shaders\basiclighting.vert" />
+    <None Include="..\res\shaders\emappingshader.frag" />
+    <None Include="..\res\shaders\emappingshader.vert" />
     <None Include="..\res\shaders\lightcubeshader.frag" />
     <None Include="..\res\shaders\lightcubeshader.vert" />
     <None Include="..\res\shaders\reflectionshader.frag" />

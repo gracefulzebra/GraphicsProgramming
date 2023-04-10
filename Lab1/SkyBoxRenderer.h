@@ -22,6 +22,7 @@ public:
 	void DrawSkybox(Viewport& _mainViewport);
 	void DrawReflectionCube(Viewport& _mainViewport, float& time);
 	void DrawRefractionCube(Viewport& _mainViewport, float& time);
+	void DraweMapCube(Viewport& _mainViewport, float& time);
 
 protected:
 private:
@@ -33,8 +34,9 @@ private:
 	GLuint skyboxVAO, skyboxVBO = NULL;
 	GLuint reflectionCubeVAO, reflectionCubeVBO = NULL;
 	GLuint refractionCubeVAO, refractionCubeVBO = NULL;
+	GLuint emappingCubeVAO, emappingCubeVBO = NULL;
 
-	ShaderHandler reflectionShader, refractionShader, skyBoxShader;
+	ShaderHandler emappingShader, reflectionShader, refractionShader, skyBoxShader;
 	Transform transform;
 
 	//Cubemap images stored in order
