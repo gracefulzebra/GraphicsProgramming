@@ -131,6 +131,8 @@
     <None Include="..\res\shaders\refractionshader.vert" />
     <None Include="..\res\shaders\skyboxshader.frag" />
     <None Include="..\res\shaders\skyboxshader.vert" />
+    <None Include="..\res\shaders\voronoiNoise.frag" />
+    <None Include="..\res\shaders\voronoiNoise.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

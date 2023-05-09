@@ -47,13 +47,14 @@ public:
 	Model(){};
 
 	//Initializes the model with all the parameters it needs to construct an instance of an object
-	void InitializeModel(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath)
+	void InitializeModel(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath, int _shaderIndex)
 	{
 		this->modelTexture = _texture;
 		this->modelShader = _shader;
 		modelMesh.LoadModelFromFile(_modelFilePath);
 		InitializeTransform(_position, _scale);
 		isInitialized = true; //Marks the object as having been initialized
+		shaderIndex = _shaderIndex;
 	}
 
 	//Setters to access the object's transform
@@ -70,6 +71,7 @@ public:
 	Transform modelTransform;
 	ShaderHandler modelShader;
 	SphereCollider modelCollider;
+	int shaderIndex;
 
 	bool isInitialized = false;
 
@@ -104,8 +106,11 @@ public:
 
 	void InitializeObjHandler(AudioHandler& _audio);
 	void DrawAllObjects(Viewport& _myViewPort, float& time);
-	void CreateObject(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath);
+	void BindObjectShader(int shaderIndex, Model& _object, Viewport& _myViewPort, float& time);
+	void CreateObject(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath, int _shaderIndex);
 	void CheckCollisions();
+	Model& GetCubeObject();
+	void DrawemapCube();
 	
 	enum Textures {
 		BRICK_TEXTURE,
@@ -118,6 +123,7 @@ public:
 		BASICLIGHTING_SHADER,
 		LIGHTCUBE_SHADER,
 		GEOM_SHADER,
+		VORONOI_SHADER,
 		NUM_SHADERS
 	};
 
@@ -125,6 +131,7 @@ public:
 		MONKEY_OBJ,
 		CUBE_OBJ,
 		BACKPACK_OBJ,
+		VORONOIBOX_OBJ,
 		NUM_OBJECTS
 	};
 	
@@ -134,6 +141,7 @@ public:
 	ShaderHandler shaders[NUM_SHADERS];
 	Model objects[NUM_OBJECTS];
 	Model light;
+	Model emapCube;
 
 	glm::vec3 lightColor = (glm::vec3(1.0f, 1.0f, 1.0f));
 	

@@ -38,9 +38,11 @@ void Game::InitializeSystems()
 
 	//Initializes the ObjectHandler and creates 3 new objects for it to manage
 	_objHandler.InitializeObjHandler(_gameAudio);
-	_objHandler.CreateObject(_objHandler.textures[0], _objHandler.shaders[0], glm::vec3(5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\monkey3.obj");
-	_objHandler.CreateObject(_objHandler.textures[2], _objHandler.shaders[2], glm::vec3(-5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj");
-	_objHandler.CreateObject(_objHandler.textures[1], _objHandler.shaders[0], glm::vec3(5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj");
+	_objHandler.CreateObject(_objHandler.textures[0], _objHandler.shaders[0], glm::vec3(5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\monkey3.obj", 0);
+	_objHandler.CreateObject(_objHandler.textures[2], _objHandler.shaders[2], glm::vec3(-5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\backpack.obj", 2);
+	_objHandler.CreateObject(_objHandler.textures[1], _objHandler.shaders[0], glm::vec3(5.0, 0.5, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj", 0);
+	_objHandler.CreateObject(_objHandler.textures[1], _objHandler.shaders[3], glm::vec3(5.0, -5.0, -5.0), glm::vec3(4, 0.6, 4), "..\\res\\objects\\plane.obj", 3);
+
 }
 
 void Game::GameLoop()
@@ -114,8 +116,8 @@ void Game::ProcessUserInput()
 						_gameState = GameState::EXIT;
 						break;
 
-						_mainViewport.MoveUp(-movementDistance);
-						break;
+						//_mainViewport.MoveUp(-movementDistance);
+						//break;
 
 					//Toggle the cursor lock state
 					case SDLK_ESCAPE:

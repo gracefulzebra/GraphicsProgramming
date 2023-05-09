@@ -26,6 +26,8 @@ void SkyBoxRenderer::InitializeSkyBoxRenderer()
     refractionShader.InitializeShader("..\\res\\shaders\\refractionshader");
     emappingShader.InitializeShader("..\\res\\shaders\\emappingshader");
     transform.SetPos(glm::vec3(0.0f, 0.0f, 0.0f));
+    emapTexture.InitializeTexture("..\\res\\textures\\hair.jpg");
+    emapMesh.LoadModelFromFile("..\\res\\objects\\cube.obj");
 }
 
 //Vertices used to draw skybox mesh
@@ -272,11 +274,14 @@ void SkyBoxRenderer::DrawRefractionCube(Viewport& _mainViewport, float& time)
     glBindVertexArray(0);
 }
 
-void SkyBoxRenderer::DraweMapCube(Viewport& _mainViewport, float& time) 
+void SkyBoxRenderer::DraweMapCube(Viewport& _mainViewport, float& time)
 {
     transform.SetPos(glm::vec3(0, 0, -5));
     transform.SetRot(glm::vec3(0, time * 0.2, 0));
     transform.SetScale(glm::vec3(1.0, 1.0, 1.0));
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     emappingShader.BindShader();
 
@@ -286,13 +291,21 @@ void SkyBoxRenderer::DraweMapCube(Viewport& _mainViewport, float& time)
 
     emappingShader.setMat4("model", model);
     emappingShader.setMat4("transform", mvp);
-    emappingShader.setVec3("cameraPos", cameraPos);
+    emappingShader.setVec3("cameraPos", cameraPos); 
 
-    glBindVertexArray(emappingCubeVAO);
+    GLuint diffuseTexLocation = glGetUniformLocation(emappingShader.getID(), "diffuse");
+    GLuint skyboxTexLocation = glGetUniformLocation(emappingShader.getID(), "skybox");
+
+    glUniform1i(diffuseTexLocation, 1);
+    glUniform1i(skyboxTexLocation, 0);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, emapTexture.getID());
+    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    glBindVertexArray(0);
+    
+    emapMesh.DrawMesh();
 }
 
 

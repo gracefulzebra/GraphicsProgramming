@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ShaderHandler.h"
+#include "ObjectHandler.h"
+#include "MeshHandler.h"
+#include "TextureHandler.h"
 #include "transform.h"
 #include "ShaderHandler.h"
 #include <string>
@@ -35,6 +38,9 @@ private:
 	GLuint reflectionCubeVAO, reflectionCubeVBO = NULL;
 	GLuint refractionCubeVAO, refractionCubeVBO = NULL;
 	GLuint emappingCubeVAO, emappingCubeVBO = NULL;
+
+	TextureHandler emapTexture;
+	MeshHandler emapMesh;
 
 	ShaderHandler emappingShader, reflectionShader, refractionShader, skyBoxShader;
 	Transform transform;

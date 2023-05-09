@@ -14,6 +14,7 @@ public:
 	~ShaderHandler();
 
 	void BindShader(); //Set gpu to use our shaders
+	GLuint getID() { return program; }
 	void InitializeShader(const std::string& filename);
 	void InitializeGeomShader(const std::string& filename);
 

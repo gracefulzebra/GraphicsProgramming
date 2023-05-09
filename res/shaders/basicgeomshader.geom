@@ -30,9 +30,9 @@ vec4 explode(vec4 position, vec3 normal)
     //Amout of explosion
     float magnitude = 8.0;
 	//Direction of explosion, going along normal
-    vec3 direction = normal * -abs(sin(time)) / 5 * magnitude; 
+    vec3 direction = normal * abs(sin(time)) / 5 * magnitude; 
 	//Returning position
-    return position; //+ vec4(direction, 0.0);
+    return position;// + vec4(direction, 0.0);
 }
 
 vec3 GetNormal()
@@ -48,7 +48,7 @@ void main()
 {
     //Getting normal
     vec3 normal = GetNormal();
-    gs_out.gNormals = normal;
+    gs_out.gNormals = (gs_in[0].vNormals + gs_in[1].vNormals + gs_in[2].vNormals) / 3; //Sends average of normals to fragment
     gs_out.gFragPosition = gs_in[0].vFragPosition;
 
     //Setting current vertex position

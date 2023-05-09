@@ -158,5 +158,11 @@
     <None Include="..\res\shaders\emappingshader.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\shaders\voronoiNoise.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\shaders\voronoiNoise.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

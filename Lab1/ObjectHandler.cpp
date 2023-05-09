@@ -12,12 +12,14 @@ void ObjectHandler::InitializeObjHandler(AudioHandler& _audio)
 	shaders[0].InitializeShader("..\\res\\shaders\\basiclighting");
 	shaders[1].InitializeShader("..\\res\\shaders\\lightcubeshader");
 	shaders[2].InitializeGeomShader("..\\res\\shaders\\basicgeomshader");
+	shaders[3].InitializeShader("..\\res\\shaders\\voronoiNoise");
 	textures[0].InitializeTexture("..\\res\\textures\\hair.jpg");
 	textures[1].InitializeTexture("..\\res\\textures\\bricks.jpg");
 	textures[2].InitializeTexture("..\\res\\textures\\backpack.jpg");
 
+	emapCube.InitializeModel(textures[1], shaders[1], glm::vec3(0.0, 10.0, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj", 1);
 	//Initializes the model for the light source
-	light.InitializeModel(textures[1], shaders[1], glm::vec3(0.0, 10.0, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj");
+	light.InitializeModel(textures[1], shaders[1], glm::vec3(0.0, 10.0, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj", 1);
 }
 
 void ObjectHandler::CheckCollisions()
@@ -41,7 +43,7 @@ void ObjectHandler::CheckCollisions()
 	}
 }
 
-void ObjectHandler::CreateObject(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath)
+void ObjectHandler::CreateObject(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath, int _shaderIndex)
 {
 	//If objects array is full return.
 	if (createCount >= NUM_OBJECTS) { std::cout << "Error : Object Limit Reached" << "\n"; return; }
@@ -50,7 +52,7 @@ void ObjectHandler::CreateObject(TextureHandler& _texture, ShaderHandler& _shade
 	objects[createCount] = GenerateObject(); //Create new model
 	std::cout << "		Completed" << "\n";
 	std::cout << "Initializing Object : " << _modelFilePath;
-	objects[createCount].InitializeModel(_texture, _shader, _position, _scale, _modelFilePath); //Initialize Model
+	objects[createCount].InitializeModel(_texture, _shader, _position, _scale, _modelFilePath, _shaderIndex); //Initialize Model
 	std::cout << "	Completed" << "\n" << "\n";
 	createCount++; //Mark object array size
 }
@@ -88,22 +90,8 @@ void ObjectHandler::DrawObject(Model& _object, Viewport& _myViewPort, float& tim
 {
 	//Binds the model's shader and texture then draws it.
 	_object.modelShader.BindShader();
-	
-	glm::vec3 cameraPos = _myViewPort.GetPos();
-	glm::vec3 lightPos = light.GetModelPos();
-	glm::vec3 lightColour = lightColor;
-	glm::mat4 model = _object.modelTransform.GetModel();
-	glm::mat4 mv = _myViewPort.GetViewMatrix();
-	glm::mat4 mp = _myViewPort.GetProjectionMatrix();
+	BindObjectShader(_object.shaderIndex, _object, _myViewPort, time);
 
-	_object.modelShader.setVec3("cameraPos", cameraPos);
-	_object.modelShader.setVec3("lightPos", lightPos);
-	_object.modelShader.setVec3("lightColor", lightColor);
-	_object.modelShader.setMat4("model", model);
-	_object.modelShader.setMat4("view", mv);
-	_object.modelShader.setMat4("projection", mp);
-	_object.modelShader.setFloat("time", time / 4);
-	
 	_object.modelTexture.BindTexture(0);
 	_object.modelMesh.DrawMesh();
 }
@@ -119,6 +107,61 @@ void ObjectHandler::DrawLight(Model& _object, Viewport& _myViewPort)
 
 	_object.modelTexture.BindTexture(0);
 	_object.modelMesh.DrawMesh();
+}
+
+void ObjectHandler::DrawemapCube()
+{
+	emapCube.modelMesh.DrawMesh();
+}
+
+void ObjectHandler::BindObjectShader(int shaderIndex, Model& _object, Viewport& _myViewPort, float& time)
+{
+	glm::vec3 cameraPos = _myViewPort.GetPos();
+	glm::vec3 lightPos = light.GetModelPos();
+	glm::vec3 lightColour = lightColor;
+	glm::mat4 model = _object.modelTransform.GetModel();
+	glm::mat4 mv = _myViewPort.GetViewMatrix();
+	glm::mat4 mp = _myViewPort.GetProjectionMatrix();
+
+	switch (shaderIndex)
+	{
+	case 0:
+		//basicLighting
+		_object.modelShader.setVec3("cameraPos", cameraPos);
+		_object.modelShader.setVec3("lightPos", lightPos);
+		_object.modelShader.setVec3("lightColor", lightColor);
+		_object.modelShader.setMat4("model", model);
+		_object.modelShader.setMat4("view", mv);
+		_object.modelShader.setMat4("projection", mp);
+		break;
+	case 1:
+		//lightCube
+
+		break;
+	case 2:
+		//basicGeom
+		_object.modelShader.setVec3("cameraPos", cameraPos);
+		_object.modelShader.setVec3("lightPos", lightPos);
+		_object.modelShader.setVec3("lightColor", lightColor);
+		_object.modelShader.setMat4("model", model);
+		_object.modelShader.setMat4("view", mv);
+		_object.modelShader.setMat4("projection", mp);
+		_object.modelShader.setFloat("time", time);
+
+		break;
+	case 3:
+		//voronoi
+		_object.modelShader.setMat4("model", model);
+		_object.modelShader.setMat4("view", mv);
+		_object.modelShader.setMat4("projection", mp);
+		_object.modelShader.setFloat("time", time);
+		break;
+	}
+}
+
+Model& ObjectHandler::GetCubeObject()
+{
+	return emapCube;
 }
 
 
