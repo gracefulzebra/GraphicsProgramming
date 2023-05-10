@@ -13,6 +13,7 @@ void ObjectHandler::InitializeObjHandler(AudioHandler& _audio)
 	shaders[1].InitializeShader("..\\res\\shaders\\lightcubeshader");
 	shaders[2].InitializeGeomShader("..\\res\\shaders\\basicgeomshader");
 	shaders[3].InitializeShader("..\\res\\shaders\\voronoiNoise");
+	shaders[4].InitializeShader("..\\res\\shaders\\mandleBrotShader");
 	textures[0].InitializeTexture("..\\res\\textures\\hair.jpg");
 	textures[1].InitializeTexture("..\\res\\textures\\bricks.jpg");
 	textures[2].InitializeTexture("..\\res\\textures\\backpack.jpg");
@@ -134,10 +135,6 @@ void ObjectHandler::BindObjectShader(int shaderIndex, Model& _object, Viewport& 
 		_object.modelShader.setMat4("view", mv);
 		_object.modelShader.setMat4("projection", mp);
 		break;
-	case 1:
-		//lightCube
-
-		break;
 	case 2:
 		//basicGeom
 		_object.modelShader.setVec3("cameraPos", cameraPos);
@@ -151,6 +148,13 @@ void ObjectHandler::BindObjectShader(int shaderIndex, Model& _object, Viewport& 
 		break;
 	case 3:
 		//voronoi
+		_object.modelShader.setMat4("model", model);
+		_object.modelShader.setMat4("view", mv);
+		_object.modelShader.setMat4("projection", mp);
+		_object.modelShader.setFloat("time", time);
+		break;
+	case 4:
+		//mandlebrot
 		_object.modelShader.setMat4("model", model);
 		_object.modelShader.setMat4("view", mv);
 		_object.modelShader.setMat4("projection", mp);

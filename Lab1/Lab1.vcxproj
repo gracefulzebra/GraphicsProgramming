@@ -125,6 +125,8 @@
     <None Include="..\res\shaders\emappingshader.vert" />
     <None Include="..\res\shaders\lightcubeshader.frag" />
     <None Include="..\res\shaders\lightcubeshader.vert" />
+    <None Include="..\res\shaders\mandleBrotShader.frag" />
+    <None Include="..\res\shaders\mandleBrotShader.vert" />
     <None Include="..\res\shaders\reflectionshader.frag" />
     <None Include="..\res\shaders\reflectionshader.vert" />
     <None Include="..\res\shaders\refractionshader.frag" />

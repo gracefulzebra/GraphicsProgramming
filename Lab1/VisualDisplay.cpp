@@ -4,8 +4,8 @@ VisualDisplay::VisualDisplay()
 {
 	appWindow = nullptr; //initialise to generate null access violation for debugging.
 	glContext = nullptr;
-	screenWidth = 1024.0f;
-	screenHeight = 768.0f; 
+	screenWidth = 1920.0f;
+	screenHeight = 1080.0f; 
 }
 
 VisualDisplay::~VisualDisplay()

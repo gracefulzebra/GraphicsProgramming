@@ -1,7 +1,6 @@
 #version 440 core
 
 uniform float time;
-uniform sampler2D sampler;
 
 in vec2 texCoord0;
 
