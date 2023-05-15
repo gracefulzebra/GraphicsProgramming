@@ -1,3 +1,3 @@
-# GamesProgramming2
-Oliver Heaney Games Programming 2 Coursework Submission
-Video of program running: https://youtu.be/C65ibNItZvM
+# GraphicsProgramming
+Oliver Heaney Graphics Programming Coursework
+Video of program running: https://www.youtube.com/watch?v=sAmhxt7XHic
