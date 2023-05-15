@@ -109,7 +109,6 @@ public:
 	void BindObjectShader(int shaderIndex, Model& _object, Viewport& _myViewPort, float& time);
 	void CreateObject(TextureHandler& _texture, ShaderHandler& _shader, glm::vec3& _position, glm::vec3& _scale, const std::string& _modelFilePath, int _shaderIndex);
 	void CheckCollisions();
-	Model& GetCubeObject();
 	void DrawemapCube();
 	
 	enum Textures {
@@ -143,7 +142,6 @@ public:
 	ShaderHandler shaders[NUM_SHADERS];
 	Model objects[NUM_OBJECTS];
 	Model light;
-	Model emapCube;
 
 	glm::vec3 lightColor = (glm::vec3(1.0f, 1.0f, 1.0f));
 	

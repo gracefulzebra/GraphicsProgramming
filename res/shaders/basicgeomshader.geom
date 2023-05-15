@@ -32,7 +32,7 @@ vec4 explode(vec4 position, vec3 normal)
 	//Direction of explosion, going along normal
     vec3 direction = normal * abs(sin(time)) / 5 * magnitude; 
 	//Returning position
-    return position;// + vec4(direction, 0.0);
+    return position + vec4(direction, 0.0);
 }
 
 vec3 GetNormal()

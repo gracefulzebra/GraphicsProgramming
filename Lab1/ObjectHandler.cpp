@@ -18,7 +18,6 @@ void ObjectHandler::InitializeObjHandler(AudioHandler& _audio)
 	textures[1].InitializeTexture("..\\res\\textures\\bricks.jpg");
 	textures[2].InitializeTexture("..\\res\\textures\\backpack.jpg");
 
-	emapCube.InitializeModel(textures[1], shaders[1], glm::vec3(0.0, 10.0, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj", 1);
 	//Initializes the model for the light source
 	light.InitializeModel(textures[1], shaders[1], glm::vec3(0.0, 10.0, 0.0), glm::vec3(0.6, 0.6, 0.6), "..\\res\\objects\\cube.obj", 1);
 }
@@ -110,11 +109,6 @@ void ObjectHandler::DrawLight(Model& _object, Viewport& _myViewPort)
 	_object.modelMesh.DrawMesh();
 }
 
-void ObjectHandler::DrawemapCube()
-{
-	emapCube.modelMesh.DrawMesh();
-}
-
 void ObjectHandler::BindObjectShader(int shaderIndex, Model& _object, Viewport& _myViewPort, float& time)
 {
 	glm::vec3 cameraPos = _myViewPort.GetPos();
@@ -163,10 +157,6 @@ void ObjectHandler::BindObjectShader(int shaderIndex, Model& _object, Viewport& 
 	}
 }
 
-Model& ObjectHandler::GetCubeObject()
-{
-	return emapCube;
-}
 
 
 

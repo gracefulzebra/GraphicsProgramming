@@ -27,7 +27,7 @@ void SkyBoxRenderer::InitializeSkyBoxRenderer()
     emappingShader.InitializeShader("..\\res\\shaders\\emappingshader");
     transform.SetPos(glm::vec3(0.0f, 0.0f, 0.0f));
     emapTexture.InitializeTexture("..\\res\\textures\\hair.jpg");
-    emapMesh.LoadModelFromFile("..\\res\\objects\\cube.obj");
+    emapMesh.LoadModelFromFile("..\\res\\objects\\monkey3.obj");
 }
 
 //Vertices used to draw skybox mesh
@@ -276,9 +276,9 @@ void SkyBoxRenderer::DrawRefractionCube(Viewport& _mainViewport, float& time)
 
 void SkyBoxRenderer::DraweMapCube(Viewport& _mainViewport, float& time)
 {
-    transform.SetPos(glm::vec3(0, 0, -5));
+    transform.SetPos(glm::vec3(0, 2, -10));
     transform.SetRot(glm::vec3(0, time * 0.2, 0));
-    transform.SetScale(glm::vec3(1.0, 1.0, 1.0));
+    transform.SetScale(glm::vec3(2.0, 2.0, 2.0));
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

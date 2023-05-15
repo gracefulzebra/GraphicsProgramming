@@ -29,34 +29,30 @@ vec3 colorPow(vec3 _color, int indice)
 
 void main() 
 {
-   vec2 uv = texCoord0 * 3;
-   uv = uv * 8.0;
+   vec2 uv = texCoord0;
+   uv = uv * 24.0;
+
    vec2 currentGridId = floor(uv);
    vec2 currentGridCoord = fract(uv);
-  
+ 
    currentGridCoord = currentGridCoord - 0.5;
-  
-   float pointsOnGrid = 0.0;
-   float minDistFromPixel = 100;
 
+   float minDistGridId = 100;
    for (float i = -1.0; i <= 1.0; i++) 
    {
       for (float j = -1.0; j <= 1.0; j++) 
       {
-         vec2 adjGridCoords = vec2(i, j);
-         vec2 pointOnAdjGrid = adjGridCoords;
+         vec2 adjacentCellCoords = vec2(i, j);
 
-         vec2 noise = noise2x2(currentGridId + adjGridCoords);
-         pointOnAdjGrid = adjGridCoords + sin(time * noise) * 0.5;
+         vec2 noise = noise2x2(currentGridId + adjacentCellCoords);
+         adjacentCellCoords += sin(time * noise) * 0.5;
 
-         float dist = length(currentGridCoord - pointOnAdjGrid);
-         minDistFromPixel = min(dist, minDistFromPixel);
-
-         pointsOnGrid += smoothstep(0.95, 0.96, 1.0 - dist);
+         float dist = length(currentGridCoord - adjacentCellCoords);
+         minDistGridId = min(dist, minDistGridId);
      }
    }
 
-   color = vec3(smoothstep(0.25, 1.0, 1.0 - minDistFromPixel / 2));
+   color = vec3(smoothstep(0.25, 1.0, 1.0 - minDistGridId / 2));
 
    color = vec3(1) - color;
 
